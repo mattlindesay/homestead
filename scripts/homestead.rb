@@ -64,15 +64,17 @@ class Homestead
     end
 
     # Configure All Of The Configured Databases
-    settings["databases"].each do |db|
-        config.vm.provision "shell" do |s|
-            s.path = "./scripts/create-mysql.sh"
-            s.args = [db]
-        end
-
-        config.vm.provision "shell" do |s|
-            s.path = "./scripts/create-postgres.sh"
-            s.args = [db]
+    if settings.has_key?("databases")
+        settings["databases"].each do |db|
+            config.vm.provision "shell" do |s|
+                s.path = "./scripts/create-mysql.sh"
+                s.args = [db]
+            end
+    
+            config.vm.provision "shell" do |s|
+                s.path = "./scripts/create-postgres.sh"
+                s.args = [db]
+            end
         end
     end
 
